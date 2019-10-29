@@ -3,7 +3,7 @@ require_relative '../lib/tic_tac_toe.rb'
 describe './lib/tic_tac_toe.rb' do
   describe TicTacToe do
     describe '#play' do
-      it 'asks for players input on a turn of the game' do
+     it 'asks for players input on a turn of the game' do
         game = TicTacToe.new
         allow($stdout).to receive(:puts)
         allow(game).to receive(:over?).and_return(false, true)
