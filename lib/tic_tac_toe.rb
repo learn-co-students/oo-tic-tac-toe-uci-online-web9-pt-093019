@@ -2,19 +2,19 @@ require 'pry'
 class TicTacToe
   WIN_COMBINATIONS  = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
 
-  attr_accessor :board, :token
-  attr_reader :x_win, :o_win
+  attr_accessor :board, :token, :x_win, :o_win
+
 
   def initialize
     @board = Array.new(9, " ")
   end
 
   def display_board
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
+    puts " #{board[0]} | #{board[1]} | #{board[2]} "
     puts "-----------"
-    puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
+    puts " #{board[3]} | #{board[4]} | #{board[5]} "
     puts "-----------"
-    puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
+    puts " #{board[6]} | #{board[7]} | #{board[8]} "
   end
 
   def input_to_index(input)
@@ -22,11 +22,11 @@ class TicTacToe
   end
 
   def move(input_index, token = "X")
-    @board[input_index] = token
+    board[input_index] = token
   end
 
   def position_taken?(input_index)
-    if (@board[input_index] == " " || @board[input_index] == "" || @board[input_index]== nil)
+    if (board[input_index] == " " || board[input_index] == "" || board[input_index]== nil)
       return false
     else
       return true
@@ -48,7 +48,6 @@ class TicTacToe
   def turn
     puts "Please enter position (1-9):"
     input = gets.strip
-    #binding.pry
     input_to_index_return = input_to_index(input)
     if valid_move?(input_to_index_return) == true
       move(input_to_index_return, current_player)
@@ -61,7 +60,7 @@ class TicTacToe
 
   def turn_count
     count = 0
-    @board.each do |board_element|
+    board.each do |board_element|
       if board_element == "X" || board_element == "O"
         count +=1
       end
@@ -71,31 +70,31 @@ class TicTacToe
 
   def current_player
     if turn_count.even?
-      @token = "X"
+      token = "X"
     else
-      @token = "O"
+      token = "O"
     end
-    @token
+    token
   end
 
   def won?
     o_indexes = []
     x_indexes = []
-    @board.each_with_index do |token, index|
+    board.each_with_index do |token, index|
       o_indexes << index if token == "O"
       x_indexes << index if token == "X"
     end
     WIN_COMBINATIONS.each do |combination_array|
-      @o_win = combination_array.all? {|combination_element| o_indexes.include?(combination_element)}
-      return combination_array if @o_win == true
-      @x_win = combination_array.all? {|combination_element| x_indexes.include?(combination_element)}
-      return combination_array if @x_win == true
+      self.o_win = combination_array.all? {|combination_element| o_indexes.include?(combination_element)}
+      return combination_array if self.o_win == true
+      self.x_win = combination_array.all? {|combination_element| x_indexes.include?(combination_element)}
+      return combination_array if self.x_win == true
     end
     false
   end
 
   def full?
-    return true if @board.include?(" ") == false
+    return true if board.include?(" ") == false
   end
 
   def draw?
@@ -142,5 +141,3 @@ class TicTacToe
     end
   end
 end
-
-
