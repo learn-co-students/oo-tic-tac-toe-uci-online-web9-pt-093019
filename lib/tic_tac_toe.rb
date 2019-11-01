@@ -16,6 +16,7 @@ def initialize
 end
 
 def display_board
+
 puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
 puts "-----------------------------------------"
 puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
@@ -24,7 +25,7 @@ puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
 end
 
 def input_to_index(string)
-index = string.to_i - 1
+string.to_i - 1
 end
 
 def move(index, token)
@@ -32,31 +33,19 @@ def move(index, token)
 end
 
 def position_taken?(index)
-  tokens = ["X", "O"]
-  taken = false
-  tokens.each {|x| taken = true if x == @board[index]}
-  taken
+ @board[index] != " "
 end
 
 def valid_move?(index)
-  valid = true
-  valid = false if (position_taken?(index) == true || index < 0 || index > 8)
-  valid
+ !position_taken?(index) && index.between?(0, 8)
 end
 
 def turn_count
-count = 0
-@board.each {|space| count += 1 if space != " "}
-count
+@board.count {|token| token != " "}
 end
 
 def current_player
-if turn_count % 2 == 0
-  current = "X"
-else
-  current = "O"
-end
-current
+turn_count % 2 == 0  ? "X" : "O"
 end
 
 def turn
@@ -64,14 +53,13 @@ this_turn = gets.chomp
 index = input_to_index(this_turn) #get input
 
 #check if input is valid and keep prompting until we get valid input
-while (valid_move?(index)==false) do
+while !valid_move?(index) do
   puts "Please enter a valid move"
   this_turn = gets.chomp
   index = input_to_index(this_turn)
 end
 
-token = current_player
-move(index, token)
+move(index, current_player)
 display_board
 end #end of turn method
 
@@ -148,6 +136,7 @@ else
 end
 
 end #end of play method
+
 
 
 
